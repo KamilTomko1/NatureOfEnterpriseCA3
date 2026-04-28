@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Panel Test</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <button
+    id="accessibilityButton"
+    type="button"
+    aria-label="Open accessibility panel"
+    aria-controls="accessibilityPanel"
+    aria-expanded="false">
+    Accessibility
+  </button>
+
+  <div id="panelOverlay" hidden></div>
+
+  <aside
+    id="accessibilityPanel"
+    aria-labelledby="panelTitle"
+    aria-modal="true"
+    tabindex="-1"
+    hidden>
+    <button
+      id="closePanelButton"
+      type="button"
+      aria-label="Close accessibility panel">
+      Close
+    </button>
+
+    <div id="mainPanelView">
+      <h2 id="panelTitle">Accessibility settings</h2>
+
+      <button
+        id="textSizeButton"
+        type="button"
+        aria-label="Text size settings">
+        Text size
+      </button>
+
+      <button
+        id="keyboardNavigationButton"
+        type="button"
+        aria-label="Keyboard navigation settings">
+        Keyboard navigation
+      </button>
+
+      <button
+        id="highContrastButton"
+        type="button"
+        aria-label="High contrast settings">
+        High contrast
+      </button>
+
+      <button
+        id="resetSettingsButton"
+        type="button"
+        aria-label="Reset accessibility settings">
+        Reset settings
+      </button>
+    </div>
+
+    <div id="textSizePanelView" hidden>
+      <button
+        id="backToMainPanelButton"
+        type="button"
+        aria-label="Go back to accessibility settings">
+        Back
+      </button>
+
+      <h2 id="textSizePanelTitle">Text size</h2>
+
+      <button
+        id="decreaseTextSizeButton"
+        type="button"
+        aria-label="Decrease text size">
+        Decrease
+      </button>
+
+      <p id="textSizeValue" aria-live="polite">100%</p>
+
+      <button
+        id="increaseTextSizeButton"
+        type="button"
+        aria-label="Increase text size">
+        Increase
+      </button>
+    </div>
+
+    <div id="keyboardNavigationPanelView" hidden>
+      <button
+        id="backFromKeyboardNavigationButton"
+        type="button"
+        aria-label="Go back to accessibility settings">
+        Back
+      </button>
+
+      <h2 id="keyboardNavigationPanelTitle">Keyboard navigation</h2>
+
+      <p>Alt plus A opens or closes accessibility settings.</p>
+      <p>Escape closes the current panel.</p>
+      <p>Alt plus Left Arrow goes back one step.</p>
+    </div>
+
+    <div id="highContrastPanelView" hidden>
+      <button
+        id="backFromHighContrastButton"
+        type="button"
+        aria-label="Go back to accessibility settings">
+        Back
+      </button>
+
+      <h2 id="highContrastPanelTitle">High contrast</h2>
+
+      <button
+        id="lightModeButton"
+        type="button"
+        aria-label="Light mode">
+        Light mode
+      </button>
+
+      <button
+        id="darkModeButton"
+        type="button"
+        aria-label="Dark mode">
+        Dark mode
+      </button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
