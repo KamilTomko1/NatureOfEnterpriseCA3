@@ -101,10 +101,23 @@ function formatTime(timeValue: string) {
   return timeParts[0] + ":" + timeParts[1];
 }
 
+function formatExpectedAttendance(expectedAttendance?: number) {
+  if (expectedAttendance === undefined || expectedAttendance === null) {
+    return "not available";
+  }
+
+  return expectedAttendance + " people";
+}
+
+function getEventDateTime(event: EventItem) {
+  return new Date(event.date + "T" + event.time).getTime();
+}
+
 export default function Home() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedEvent, setSelectedEvent] = useState("");
+  const [selectedEventTitle, setSelectedEventTitle] = useState("");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const [panelView, setPanelView] = useState("main");
   const [textSize, setTextSize] = useState(100);
   const [theme, setTheme] = useState("light");
@@ -123,6 +136,34 @@ export default function Home() {
   const backToMainPanelButtonRef = useRef<HTMLButtonElement | null>(null);
   const backFromKeyboardNavigationButtonRef = useRef<HTMLButtonElement | null>(null);
   const backFromHighContrastButtonRef = useRef<HTMLButtonElement | null>(null);
+  const resetDialogRef = useRef<HTMLDivElement | null>(null);
+  const cancelResetButtonRef = useRef<HTMLButtonElement | null>(null);
+  const resetRecommendationsButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const savedEventTitle = localStorage.getItem("selectedEventTitle");
+    const savedTheme = localStorage.getItem("selectedTheme");
+
+    if (savedEventTitle) {
+      setSelectedEventTitle(savedEventTitle);
+    }
+
+    if (savedTheme === "light" || savedTheme === "dark") {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedEventTitle) {
+      localStorage.setItem("selectedEventTitle", selectedEventTitle);
+    } else {
+      localStorage.removeItem("selectedEventTitle");
+    }
+  }, [selectedEventTitle]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedTheme", theme);
+  }, [theme]);
 
   useEffect(() => {
     async function loadEventsFromSupabase() {
@@ -146,13 +187,49 @@ export default function Home() {
     loadEventsFromSupabase();
   }, []);
 
+  const selectedEvent =
+    events.find((event) => event.title === selectedEventTitle) || null;
+
   const visibleEvents =
     activeFilter === "All"
       ? events
       : events.filter((event) => event.category === activeFilter);
 
-  function selectEvent(eventTitle: string) {
-    setSelectedEvent(eventTitle);
+  const recommendedEvents = selectedEvent
+    ? events
+        .filter(
+          (event) =>
+            event.category === selectedEvent.category &&
+            event.title !== selectedEvent.title
+        )
+        .sort((firstEvent, secondEvent) => {
+          return getEventDateTime(firstEvent) - getEventDateTime(secondEvent);
+        })
+    : [];
+
+  function selectEvent(event: EventItem) {
+    setSelectedEventTitle(event.title);
+  }
+
+  function openResetDialog() {
+    setIsResetDialogOpen(true);
+
+    setTimeout(() => {
+      cancelResetButtonRef.current?.focus();
+    }, 50);
+  }
+
+  function closeResetDialog() {
+    setIsResetDialogOpen(false);
+
+    setTimeout(() => {
+      resetRecommendationsButtonRef.current?.focus();
+    }, 0);
+  }
+
+  function resetRecommendations() {
+    setSelectedEventTitle("");
+    setIsResetDialogOpen(false);
   }
 
   function openPanel() {
@@ -265,29 +342,72 @@ export default function Home() {
     }
   }
 
+  function trapResetDialogFocus(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const dialog = resetDialogRef.current;
+
+    if (!dialog) {
+      return;
+    }
+
+    const focusableElements = Array.from(
+      dialog.querySelectorAll<HTMLElement>("button:not([disabled])")
+    );
+
+    if (focusableElements.length === 0) {
+      event.preventDefault();
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+      return;
+    }
+
+    if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  }
+
   useEffect(() => {
     const mainContent = document.getElementById("main-content");
 
-    if (isPanelOpen) {
+    if (isPanelOpen || isResetDialogOpen) {
       mainContent?.setAttribute("aria-hidden", "true");
       mainContent?.setAttribute("inert", "");
-
-      setTimeout(() => {
-        closePanelButtonRef.current?.focus();
-      }, 50);
     } else {
       mainContent?.removeAttribute("aria-hidden");
       mainContent?.removeAttribute("inert");
+    }
+
+    if (isPanelOpen) {
+      setTimeout(() => {
+        closePanelButtonRef.current?.focus();
+      }, 50);
     }
 
     return () => {
       mainContent?.removeAttribute("aria-hidden");
       mainContent?.removeAttribute("inert");
     };
-  }, [isPanelOpen]);
+  }, [isPanelOpen, isResetDialogOpen]);
 
   useEffect(() => {
     function handleKeyboardShortcuts(event: KeyboardEvent) {
+      if (event.key === "Escape" && isResetDialogOpen) {
+        event.preventDefault();
+        closeResetDialog();
+        return;
+      }
+
       if (event.altKey && event.key.toLowerCase() === "a") {
         event.preventDefault();
 
@@ -323,7 +443,7 @@ export default function Home() {
     return () => {
       document.removeEventListener("keydown", handleKeyboardShortcuts);
     };
-  }, [isPanelOpen, panelView]);
+  }, [isPanelOpen, isResetDialogOpen, panelView]);
 
   return (
     <div className={theme === "dark" ? "theme-dark" : "theme-light"} style={{ fontSize: textSize + "%" }}>
@@ -340,6 +460,47 @@ export default function Home() {
       </button>
 
       {isPanelOpen && <div id="panelOverlay" onClick={closePanel}></div>}
+
+      {isResetDialogOpen && <div id="resetDialogOverlay"></div>}
+
+      {isResetDialogOpen && (
+        <div
+          id="resetRecommendationsDialog"
+          ref={resetDialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="resetDialogTitle"
+          tabIndex={-1}
+          onKeyDown={trapResetDialogFocus}
+        >
+          <h2 id="resetDialogTitle">
+            Reset recommendations
+          </h2>
+
+          <p id="resetDialogDescription">
+            Are you sure you want to reset recommendations? This will clear the selected event and hide the recommended section.
+          </p>
+
+          <div className="reset-dialog-actions">
+            <button
+              type="button"
+              ref={cancelResetButtonRef}
+              aria-label="Cancel reset recommendations"
+              onClick={closeResetDialog}
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              aria-label="Reset recommendations"
+              onClick={resetRecommendations}
+            >
+              Reset recommendations
+            </button>
+          </div>
+        </div>
+      )}
 
       <aside
         id="accessibilityPanel"
@@ -531,7 +692,7 @@ export default function Home() {
           <h1>Events</h1>
         </header>
 
-        <section aria-labelledby="filter-heading">
+        <section className="filter-section" aria-labelledby="filter-heading">
           <h2 id="filter-heading">Filter events</h2>
 
           <div id="filterButtons" role="group" aria-label="Event category filters">
@@ -542,7 +703,7 @@ export default function Home() {
                 aria-pressed={activeFilter === filter}
                 onClick={() => {
                   setActiveFilter(filter);
-                  setSelectedEvent("");
+                  setSelectedEventTitle("");
                 }}
               >
                 {filter}
@@ -556,43 +717,104 @@ export default function Home() {
               : eventLoadError
               ? eventLoadError
               : `Showing ${visibleEvents.length} ${activeFilter === "All" ? "events" : activeFilter + " events"}.`}
-            {selectedEvent ? " Selected event: " + selectedEvent + "." : ""}
           </p>
         </section>
 
-        <section aria-labelledby="events-heading">
+        <section className="events-section" aria-labelledby="events-heading">
           <h2 id="events-heading">Upcoming events</h2>
 
-          {visibleEvents.map((event) => {
-            const readableDate = formatDate(event.date);
-            const readableTime = formatTime(event.time);
+          <div className="events-grid">
+            {visibleEvents.map((event) => {
+              const readableDate = formatDate(event.date);
+              const readableTime = formatTime(event.time);
+              const readableAttendance = formatExpectedAttendance(event.expected_attendance);
+              const isSelected = selectedEventTitle === event.title;
 
-            return (
-              <article
-                key={event.title}
-                tabIndex={0}
-                role="button"
-                aria-label={`${event.title}. Category ${event.category}. Date ${readableDate}. Time ${readableTime}. Location ${event.location}. Press Enter or Space to select this event.`}
-                onClick={() => selectEvent(event.title)}
-                onKeyDown={(keyboardEvent) => {
-                  if (keyboardEvent.key === "Enter" || keyboardEvent.key === " ") {
-                    keyboardEvent.preventDefault();
-                    selectEvent(event.title);
-                  }
-                }}
-              >
-                <h3>{event.title}</h3>
-                <p>Category: {event.category}</p>
-                <p>Date: {readableDate}</p>
-                <p>Time: {readableTime}</p>
-                <p>Location: {event.location}</p>
-                {event.expected_attendance !== undefined && (
-                  <p>Expected attendance: {event.expected_attendance}</p>
-                )}
-              </article>
-            );
-          })}
+              return (
+                <article
+                  key={event.title}
+                  className={isSelected ? "event-card selected-event-card" : "event-card"}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${event.title}. ${isSelected ? "Selected event. " : ""}Category ${event.category}. Date ${readableDate}. Time ${readableTime}. Location ${event.location}. Expected attendance ${readableAttendance}. Press Enter or Space to select this event.`}
+                  onClick={() => selectEvent(event)}
+                  onKeyDown={(keyboardEvent) => {
+                    if (keyboardEvent.key === "Enter" || keyboardEvent.key === " ") {
+                      keyboardEvent.preventDefault();
+                      selectEvent(event);
+                    }
+                  }}
+                >
+                  {isSelected && <p className="selected-event-label">Selected event</p>}
+                  <h3>{event.title}</h3>
+                  <p>Category: {event.category}</p>
+                  <p>Date: {readableDate}</p>
+                  <p>Time: {readableTime}</p>
+                  <p>Location: {event.location}</p>
+                  {event.expected_attendance !== undefined && (
+                    <p>Expected attendance: {event.expected_attendance} people</p>
+                  )}
+                </article>
+              );
+            })}
+          </div>
         </section>
+
+        {selectedEvent && (
+          <section className="recommendations-section" aria-labelledby="recommended-events-heading">
+            <h2 id="recommended-events-heading">Recommended events</h2>
+
+            <p>Selected event: {selectedEvent.title}.</p>
+            <p>Recommended because these events are in the same category: {selectedEvent.category}.</p>
+
+            <button
+              type="button"
+              ref={resetRecommendationsButtonRef}
+              className="reset-recommendations-button"
+              onClick={openResetDialog}
+            >
+              Reset recommendations
+            </button>
+
+            {recommendedEvents.length > 0 ? (
+              <div className="recommendations-grid">
+                {recommendedEvents.map((event) => {
+                  const readableDate = formatDate(event.date);
+                  const readableTime = formatTime(event.time);
+                  const readableAttendance = formatExpectedAttendance(event.expected_attendance);
+
+                  return (
+                    <article
+                      key={"recommended-" + event.title}
+                      className="event-card"
+                      tabIndex={0}
+                      role="button"
+                      aria-label={`Recommended event. ${event.title}. Category ${event.category}. Date ${readableDate}. Time ${readableTime}. Location ${event.location}. Expected attendance ${readableAttendance}. Press Enter or Space to select this event.`}
+                      onClick={() => selectEvent(event)}
+                      onKeyDown={(keyboardEvent) => {
+                        if (keyboardEvent.key === "Enter" || keyboardEvent.key === " ") {
+                          keyboardEvent.preventDefault();
+                          selectEvent(event);
+                        }
+                      }}
+                    >
+                      <h3>{event.title}</h3>
+                      <p>Category: {event.category}</p>
+                      <p>Date: {readableDate}</p>
+                      <p>Time: {readableTime}</p>
+                      <p>Location: {event.location}</p>
+                      {event.expected_attendance !== undefined && (
+                        <p>Expected attendance: {event.expected_attendance} people</p>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <p>No similar events found in this category.</p>
+            )}
+          </section>
+        )}
       </main>
     </div>
   );
