@@ -1,4 +1,4 @@
-body {
+Hbody {
   font-family: Arial, sans-serif;
   margin: 0;
   line-height: 1.5;
@@ -340,4 +340,792 @@ header h1 {
   .reset-dialog-actions {
     flex-direction: column;
   }
+}
+
+.site-header {
+  padding: 24px 20px;
+  border-bottom: 2px solid currentColor;
+}
+
+.site-header h1 {
+  margin: 0 0 16px 0;
+  font-size: 2rem;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-nav a,
+.card-link {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.card-link:hover {
+  border-width: 3px;
+}
+
+.site-nav a:focus-visible,
+.card-link:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+  box-sizing: border-box;
+}
+
+.hero-section {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.hero-section h2 {
+  margin-top: 0;
+}
+
+.home-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.home-card {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.home-card h3 {
+  margin-top: 0;
+}
+
+.site-footer {
+  padding: 20px;
+  border-top: 2px solid currentColor;
+}
+
+.home-hero {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+}
+
+.home-small-heading {
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+
+.home-hero h2 {
+  margin: 0 0 16px 0;
+  font-size: 2rem;
+}
+
+.home-hero p {
+  max-width: 850px;
+  margin-bottom: 22px;
+}
+
+.primary-home-link {
+  display: inline-block;
+  padding: 12px 18px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.primary-home-link:focus-visible,
+.home-link-row a:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.home-overview {
+  margin-bottom: 40px;
+}
+
+.overview-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.overview-list section {
+  border-left: 4px solid currentColor;
+  padding-left: 16px;
+}
+
+.home-updates {
+  margin-bottom: 40px;
+}
+
+.notice-list article {
+  border-top: 2px solid currentColor;
+  padding: 18px 0;
+}
+
+.notice-list article:last-child {
+  border-bottom: 2px solid currentColor;
+}
+
+.home-next-steps {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.home-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.home-link-row a {
+  display: inline-block;
+  padding: 10px 14px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.help-intro {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+}
+
+.help-intro h2 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.help-options {
+  margin-bottom: 40px;
+}
+
+.help-option-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.help-option-list section {
+  border-left: 4px solid currentColor;
+  padding-left: 16px;
+}
+
+.help-form-section {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.help-form {
+  max-width: 700px;
+}
+
+.form-field {
+  margin-bottom: 18px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.form-field input:focus-visible,
+.form-field select:focus-visible,
+.form-field textarea:focus-visible,
+.submit-help-button:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.submit-help-button {
+  padding: 12px 18px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.site-header,
+.page-content,
+.site-footer {
+  font-family: Arial, sans-serif;
+}
+
+.site-header {
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.site-header h1 {
+  font-size: 2rem;
+  margin-bottom: 18px;
+}
+
+.page-content {
+  padding-top: 28px;
+}
+
+.help-intro {
+  max-width: 900px;
+}
+
+.help-form-section {
+  max-width: 900px;
+}
+
+.timetable-intro {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+}
+
+.timetable-intro h2 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.timetable-section {
+  margin-bottom: 40px;
+}
+
+.timetable-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.timetable-card {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.timetable-card h3 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.timetable-card p {
+  margin: 0 0 10px 0;
+}
+
+.timetable-card p:last-child {
+  margin-bottom: 0;
+}
+
+.timetable-list {
+  display: block;
+  max-width: 900px;
+}
+
+.timetable-card {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 10px 20px;
+  border: 2px solid currentColor;
+  border-left: 8px solid currentColor;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.timetable-card h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 6px 0;
+  font-size: 1.25rem;
+}
+
+.timetable-card p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .timetable-card {
+    display: block;
+  }
+
+  .timetable-card p {
+    margin-bottom: 8px;
+  }
+}
+
+.timetable-list {
+  display: block;
+  max-width: 950px;
+}
+
+.timetable-card {
+  display: block;
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+}
+
+.timetable-card h3 {
+  margin: 0 0 14px 0;
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+.timetable-card p {
+  margin: 0 0 8px 0;
+  line-height: 1.45;
+}
+
+.timetable-card p:last-child {
+  margin-bottom: 0;
+}
+
+.timetable-card:focus-within {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (min-width: 800px) {
+  .timetable-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 28px;
+  }
+
+  .timetable-card h3 {
+    grid-column: 1 / -1;
+  }
+}
+
+.timetable-card {
+  border-left: none !important;
+  border-right: 2px solid currentColor !important;
+  border-top: 2px solid currentColor !important;
+  border-bottom: 2px solid currentColor !important;
+}
+
+.timetable-card::before,
+.timetable-card::after,
+.timetable-card h3::before,
+.timetable-card h3::after,
+.timetable-card p::before,
+.timetable-card p::after {
+  content: none !important;
+  display: none !important;
+  border: none !important;
+}
+
+.timetable-card h3,
+.timetable-card p {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+
+
+.info-intro {
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+}
+
+.info-intro h2 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.info-section {
+  margin-bottom: 40px;
+}
+
+.info-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.info-list section {
+  padding: 18px 0;
+  border-top: 2px solid currentColor;
+}
+
+.info-list h3 {
+  margin-top: 0;
+}
+
+.location-list {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.location-list p {
+  margin: 0 0 10px 0;
+}
+
+.location-list p:last-child {
+  margin-bottom: 0;
+}
+
+.student-reminder-list {
+  max-width: 850px;
+  padding-left: 24px;
+}
+
+.student-reminder-list li {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+
+
+.campus-info-list,
+.society-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.campus-info-item,
+.society-item {
+  border: 2px solid currentColor;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.campus-info-item h3,
+.society-item h3 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.campus-info-item p,
+.society-item p {
+  margin: 0 0 10px 0;
+  line-height: 1.45;
+}
+
+.campus-info-item p:last-child,
+.society-item p:last-child {
+  margin-bottom: 0;
+}
+
+
+
+#accessibilityButton {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 5000;
+  padding: 12px 16px;
+  border: 2px solid currentColor;
+  background-color: #ffffff;
+  color: #000000;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+#panelOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 4999;
+}
+
+#accessibilityPanel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  padding: 20px;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  z-index: 5001;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+#accessibilityPanel[hidden] {
+  display: none;
+}
+
+#accessibilityPanel button {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 2px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 6px;
+}
+
+#accessibilityPanel h2 {
+  margin-top: 0;
+}
+
+#accessibilityPanel p {
+  margin-bottom: 12px;
+}
+
+#accessibilityButton:focus-visible,
+#accessibilityPanel button:focus-visible {
+  outline: 3px solid #000000;
+  outline-offset: 3px;
+}
+
+#accessibilityButton {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  background-color: white !important;
+  color: black !important;
+  border: 3px solid black !important;
+  padding: 12px 18px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 6px !important;
+}
+
+#accessibilityPanel {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  position: fixed !important;
+  top: 80px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  width: 340px !important;
+  max-width: calc(100vw - 40px) !important;
+  background-color: white !important;
+  color: black !important;
+  border: 3px solid black !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+}
+
+#accessibilityPanel[hidden] {
+  display: none !important;
+}
+
+#accessibilityPanel button {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 12px !important;
+  padding: 12px !important;
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+  font-size: 16px !important;
+  text-align: left !important;
+}
+
+#accessibilityButton {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  top: 20px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 3px solid #ffffff !important;
+  padding: 12px 18px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  border-radius: 6px !important;
+}
+
+#accessibilityPanel {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  position: fixed !important;
+  top: 80px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  width: 340px !important;
+  max-width: calc(100vw - 40px) !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 3px solid #ffffff !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+}
+
+#accessibilityPanel[hidden] {
+  display: none !important;
+}
+
+#accessibilityPanel button {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 12px !important;
+  padding: 12px !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  border-radius: 6px !important;
+}
+
+#accessibilityButton:focus-visible,
+#accessibilityPanel button:focus-visible {
+  outline: 3px solid #ffffff !important;
+  outline-offset: 3px !important;
+}
+
+.home-feature,
+.home-card,
+.quick-help-card,
+.help-area,
+.help-card {
+  border-left: none !important;
+}
+
+.overview-list section,
+.help-option-list section {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+.home-hero,
+.hero-section {
+  border: none !important;
+  border-bottom: 2px solid currentColor !important;
+  border-radius: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.home-next-steps {
+  border: none !important;
+  border-top: 2px solid currentColor !important;
+  border-radius: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.help-intro {
+  border-bottom: 2px solid currentColor !important;
+}
+
+.help-form-section {
+  border: 2px solid currentColor !important;
+  border-radius: 10px !important;
+}
+
+.event-card,
+.timetable-card,
+.campus-info-item,
+.society-item {
+  border: 2px solid currentColor !important;
+}
+
+
+
+
+
+.page-content > section {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.page-content > section + section {
+  border-top: none !important;
+}
+
+.hero-section,
+.home-hero,
+.info-intro,
+.help-intro,
+.timetable-intro,
+.events-intro,
+.filter-section,
+.events-section,
+.recommendations-section,
+.home-next-steps,
+.home-notices,
+.student-notices,
+.notices-section {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.site-header {
+  border-bottom: 2px solid currentColor !important;
+}
+
+.home-card,
+.event-card,
+.timetable-card,
+.campus-info-item,
+.society-item,
+.help-form-section,
+form {
+  border-top-color: currentColor !important;
+  border-bottom-color: currentColor !important;
 }
